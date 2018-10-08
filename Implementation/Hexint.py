@@ -1,3 +1,4 @@
+# coding: utf-8
 import math
 class Hexint:
     # class constructor , provides conversion from a
@@ -5,33 +6,34 @@ class Hexint:
     def __init__( self , value =0, base7=True ):
         # error is less than zero
         if value <0:
-            raise ’BadHexintError ’,’mustbegreater
-                thanorequalto0’
+            raise 'BadHexintError_must_be_greater_than_or_equal_to_0'
         if base7 == True:
             # any non 0-6 digit will raise error
-            temp = ’%ld’%value
+            temp = '%d'%value
             for i in range(len(temp)):
                 if int(temp[i]) >6:
-                    raise ’BadHexintError ’,’canthave
-                        digit>6’
+                    raise 'BadHexintError_cant_have_digit_greater_than_6'
             self.numval = value
         else:
             temp = 0
             mul = 1
             while value >0:
                 temp += (value %7)*mul
+                
                 value /= 7
+                
                 mul *= 10
             self.numval = temp
-        self.numstr = ’%ld’%self.numval
+        self.numstr = '%d'%self.numval
         self.ndigits = len( self.numstr )
+        
     # convert to a string for displaying result
     def __str__( self ):
-        return ’(’+self.numstr+’)’
+        return '('+self.numstr+')'
     __repr__ = __str__
     # comparison ==
     def __eq__( self , object ):
-        if isinstance( object ,Hexint):
+        if isinstance(object ,Hexint):
             return self.numval == object.numval
         else:
             return False
@@ -46,29 +48,31 @@ class Hexint:
               [ 5, 6, 0, 4 ,42 ,41 ,53 ] ,
               [ 6,64, 1, 0, 5,53,52 ] ]
     # pad out with zeros to make strs same length
-    slen = self.ndigits -object.ndigits
-    if slen >0:
-        numa = ’0’+self.numstr
-        numb = ’0’+(’0’*slen)+object.numstr
-    else:
-        numa = ’0’+(’0’*(-slen))+self.numstr
-        numb = ’0’+object.numstr
-    maxlen = len(numa)
-    total = 0
-    mul = 1
-    for i in range(maxlen):
-        ii = maxlen -i-1
-        t = A[ int(numa[ii]) ][ int(numb[ii]) ]
-        total += (t%10)*mul
-        carry = t/10
-        for j in range(i+1,maxlen):
-            jj = maxlen -j-1
-            if carry >0:
-                t = A[ int(numa[jj]) ][ carry ]
-                numa = numa [:jj]+str(t%10)+numa[jj +1:]
-                carry = t/10
-        mul *=10
-    return Hexint( total )
+        slen = self.ndigits-object.ndigits
+        if slen >0:
+            numa = '0'+self.numstr
+            numb = '0'+('0'*slen)+object.numstr
+        else:
+            numa = '0'+('0'*(-slen))+self.numstr
+            numb = '0'+object.numstr
+        maxlen = len(numa)
+        total = 0
+        mul = 1
+        for i in range(maxlen):
+            ii = maxlen -i-1
+            t = A[ int(numa[ii]) ][ int(numb[ii]) ]
+            total += (t%10)*mul
+            carry = t/10
+            for j in range(i+1,maxlen):
+                jj = maxlen-j-1
+                if carry >0:
+                    t = A[int(numa[jj])][carry]
+                    numa = numa [:jj]+str(t%10)+numa[jj +1:]
+                    carry = t/10
+
+            mul *=10
+        return Hexint( total )
+       
     # Hexint multiplication works for another Hexint
     # or a scalar
     def __mul__( self , object ):
@@ -83,28 +87,28 @@ class Hexint:
                   [ 0,6,1,2,3,4,5 ] ]
                 # pad out with zeros to make strs
                 # same length
-                slen = self.ndigits -object.ndigits
-                if slen >0:
-                    numa = ’0’+self.numstr
-                    numb = ’0’+(’0’*s•len)+object.numstr
-                else:
-                    numa = ’0’+(’0’*(-slen))+self.numstr
-                    numb = ’0’+object.numstr
-                maxlen = len(numa)
-                powers = [10**i for i in range(maxlen)]
-                sum = Hexint( 0 )
-                for i in range(maxlen):
-                    ii = maxlen -i-1
-                    partial = long (0)
-                    mul = powers[i]
-                    for j in range(maxlen):
-                        jj = maxlen -j-1
-                        if numa[ii ]!=0:
-                            partial += M[ int(numa[ii]) ][ int(numb[jj]) ]*mul
-                        mul *= 10
-                    sum += Hexint(partial)
-                return sum
-            # scalar multiplication
+            slen = self.ndigits-object.ndigits
+            if slen >0:
+                numa = '0'+self.numstr
+                numb = '0'+('0'*s.len)+object.numstr
+            else:
+                numa = '0'+('0'*(-slen))+self.numstr
+                numb = '0'+object.numstr
+            maxlen = len(numa)
+            powers = [10**i for i in range(maxlen)]
+            sum = Hexint( 0 )
+            for i in range(maxlen):
+                ii = maxlen -i-1
+                partial = long(0)
+                mul = powers[i]
+                for j in range(maxlen):
+                    jj = maxlen -j-1
+                    if numa[ii ]!=0:
+                        partial += M[ int(numa[ii]) ][ int(numb[jj]) ]*mul
+                    mul *= 10
+                sum += Hexint(partial)
+            return sum
+        # scalar multiplication
         elif isinstance(object ,int):
             if object >0:
                 num = Hexint(self.numval)
@@ -119,28 +123,28 @@ class Hexint:
     def __neg__( self ):
         total = 0
         mul = 1
-    for i in range(self.ndigits -1,-1,-1):
-        if self.numstr[i]==’1’:
-            total += (4* mul)
-        elif self.numstr[i]==’2’:
-            total += (5* mul)
-        elif self.numstr[i]==’3’:
-            total += (6* mul)
-        elif self.numstr[i]==’4’:
-            total += (1* mul)
-        elif self.numstr[i]==’5’:
-            total += (2* mul)
-        elif self.numstr[i]==’6’:
-            total += (3* mul)
-        mul *= 10
-    return Hexint( total )
+        for i in range(self.ndigits -1,-1,-1):
+            if self.numstr[i]=='1':
+                total += (4* mul)
+            elif self.numstr[i]=='2':
+                total += (5* mul)
+            elif self.numstr[i]=='3':
+                total += (6* mul)
+            elif self.numstr[i]=='4':
+                total += (1* mul)
+            elif self.numstr[i]=='5':
+                total += (2* mul)
+            elif self.numstr[i]=='6':
+                total += (3* mul)
+            mul *= 10
+        return Hexint( total )
     # Hexint subtraction
     def __sub__( self , object ):
         return self + (-object)
     # get the digit of the Hexint at position pos
     def __getitem__( self , pos ):
         if pos >= self.ndigits:
-            raise ’HexIndexError ’,’notthatmanylayers ’
+            raise 'HexIndexError_not_that_many_layers'
         else:
             return int( self.numstr[self.ndigits -pos-1] )
     # get a Hexint that is some part of the original
@@ -177,28 +181,28 @@ class Hexint:
         xc ,yc = 1.0 ,0.0
         x,y = 0.0 ,0.0
         sqrt3 = math.sqrt (3)
-    for i in range(self.ndigits -1,-1,-1):
-        if i<self.ndigits -1: # compute key points
-            xc ,yc = 2*xc - sqrt3*yc , sqrt3*xc + 2*yc
-        # compute rotation
-        if self.numstr[i]==’1’:
-            x += xc
-            y += yc
-        elif self.numstr[i]==’2’:
-            x += (xc/2) - (sqrt3*yc/2)
-            y += (sqrt3*xc/2) + (yc/2)
-        elif self.numstr[i]==’3’:
-            x += -(xc/2) - (sqrt3*yc/2)
-            y += (sqrt3*xc/2) - (yc/2)
-        elif self.numstr[i]==’4’:
-            x -= xc
-            y -= yc
-        elif self.numstr[i]==’5’:
-            x += -(xc/2) + (sqrt3*yc/2)
-            y += -(sqrt3*xc/2) - (yc/2)
-        elif self.numstr[i]==’6’:
-            x += (xc/2) + (sqrt3*yc/2)
-            y += -(sqrt3*xc/2) + (yc/2)
+        for i in range(self.ndigits -1,-1,-1):
+            if i<self.ndigits -1: # compute key points
+                xc ,yc = 2*xc - sqrt3*yc , sqrt3*xc + 2*yc
+            # compute rotation
+            if self.numstr[i]=='1':
+                x += xc
+                y += yc
+            elif self.numstr[i]=='2':
+                x += (xc/2) - (sqrt3*yc/2)
+                y += (sqrt3*xc/2) + (yc/2)
+            elif self.numstr[i]=='3':
+                x += -(xc/2) - (sqrt3*yc/2)
+                y += (sqrt3*xc/2) - (yc/2)
+            elif self.numstr[i]=='4':
+                x -= xc
+                y -= yc
+            elif self.numstr[i]=='5':
+                x += -(xc/2) + (sqrt3*yc/2)
+                y += -(sqrt3*xc/2) - (yc/2)
+            elif self.numstr[i]=='6':
+                x += (xc/2) + (sqrt3*yc/2)
+                y += -(sqrt3*xc/2) + (yc/2)
         return (x,y)
     # returns a 3-tuple using Her’s coord system
     def getHer( self ):
@@ -208,32 +212,32 @@ class Hexint:
             if i<self.ndigits -1: # compute key points
                 xc ,yc ,zc = (4* xc - 5*yc + zc)/3, (xc+ 4*yc - 5*zc)/3,(-5*xc + yc + 4*zc)/3
             # compute the rotation
-            if self.numstr[i]==’1’:
+            if self.numstr[i]=='1':
                 x += xc
                 y += yc
                 z += zc
-            elif self.numstr[i]==’2’:
+            elif self.numstr[i]=='2':
                 x -= yc
                 y -= zc
                 z -= xc
-            elif self.numstr[i]==’3’:
+            elif self.numstr[i]=='3':
                 x += zc
                 y += xc
                 z += yc
-            elif self.numstr[i]==’4’:
+            elif self.numstr[i]=='4':
                 x -= xc
                 y -= yc
                 z -= zc
-            elif self.numstr[i]==’5’:
+            elif self.numstr[i]=='5':
                 x += yc
                 y += zc
                 z += xc
-            elif self.numstr[i]==’6’:
+            elif self.numstr[i]=='6':
                 x -= zc
                 y -= xc
                 z -= yc
     # return result
-            return (x,y,z)
+        return (x,y,z)
     # returns a base 10 integer corresponding
     # to a Hexint
     def getInt( self ):
