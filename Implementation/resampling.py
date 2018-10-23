@@ -1,14 +1,15 @@
+# coding: utf-8
 import math
 import sys
 import types
-import Image # python imaging library (PIL)
+from PIL import Image # python imaging library (PIL)
 try:
     from Hexint import Hexint
     from hexarray import Hexarray
     import Hexdisp
 except:
     print 'ERROR: Hex libs are not installed'
-    sys.exit( )
+    sys.exit()
 # different sampling techniques
 BLINEAR = 1
 BCUBIC = 2
@@ -50,7 +51,8 @@ def hipsampleGray( image , order , sc , technique ):
     scale = sc
     himage = Hexarray( order )
     for i in range(len(himage)):
-        x,y = Hexint(i,False).getReal()y = -y # y direction for PIL is inverted
+        x,y = Hexint(i,False).getReal() 
+        y = -y # y direction for PIL is inverted
         xa,ya = ox+scale*x, oy+scale*y
         out = 0.0
         for m in range( int(round(xa -3)),int(round(xa+4))):
@@ -97,18 +99,17 @@ def sqsampleGray( himage , rge ,sc , technique ):
     rx = int( round ((mxx -mnx)/sc) )+1
     ry = int( round ((mxy -mny)/sc) )+1
     # create a square image of the right size
-    image = Image.new( ’L’,(rx ,ry) )
+    image = Image.new( 'L',(rx ,ry) )
     # offset table
     sizes = [ Hexint (7**o-1,False) for o in range (8)]
-    order = [ o for o in range(len(sizes)) if sizes[o].getPolar()[0]>rge ]
-    offsets = [ Hexint(h,False) for h in range (7**
-        order [0]) if Hexint(h,False).getPolar()[0]<=rge]
+    order = [ o for o in range(len(sizes)) if sizes[o].getPolar()[0]>rge]
+    offsets = [ Hexint(h,False) for h in range (7**order [0]) if Hexint(h,False).getPolar()[0]<=rge]
     for i in range(ry):
         for j in range(rx): # for the points in the
             image
             xa ,ya = mnx+j*sc , mny+i*sc
 # find hex lattice points near the point
-                (xa ,ya)
+            (xa ,ya)
             list = []
             hn = Hexint ().getNearest(xa ,ya)
             for h in offsets:
@@ -141,7 +142,7 @@ def sqsampleColour( himage , rge ,sc , technique ):
     rx = int( round ((mxx -mnx)/sc) )+1
     ry = int( round ((mxy -mny)/sc) )+1
     # create a square image
-    image = Image.new( ’RGB’,(rx ,ry) )
+    image = Image.new( 'RGB',(rx ,ry) )
     # offset table
     sizes = [ Hexint (7**o-1,False) for o in range (8)]
     order = [ o for o in range(len(sizes)) if sizes[o].getPolar()[0]>rge ]
@@ -149,9 +150,9 @@ def sqsampleColour( himage , rge ,sc , technique ):
     for i in range(ry):
         for j in range(rx): # for the points in the
             image
-            xa ,ya = mnx+j*sc , mny+i*sc
+            xa ,ya = mnx+j*sc , mny+i*sc(xa ,ya)
 # find hex lattice points near the point
-                (xa ,ya)
+            (xa ,ya)
             list = []
             hn = Hexint ().getNearest(xa ,ya)
             for h in offsets:
@@ -162,8 +163,8 @@ def sqsampleColour( himage , rge ,sc , technique ):
 # compute the colour of the square pixel
             out = [0.0 ,0.0 ,0.0]
             for h in list:
-                if h.getInt () <=mh.getInt ():
-                    (x,y) = h.getReal ()
+                if h.getInt() <=mh.getInt():
+                    (x,y) = h.getReal()
                     pixel = himage[h]
                     out [0] += pixel [0]* kernel(xa -x,ya-y,technique)
                     out [1] += pixel [1]* kernel(xa -x,ya-y,technique)
@@ -177,9 +178,9 @@ def sqsampleColour( himage , rge ,sc , technique ):
 # sc : spacing between points in the hex lattice
 # technique : which kernel to use
 def hipsample( image , order =5, sc=1.0, technique= BLINEAR ):
-    if image.mode ==’L’:
+    if image.mode =='L':
         return hipsampleGray( image , order , sc ,technique )
-    elif image.mode ==’RGB’:
+    elif image.mode =='RGB':
         return hipsampleColour( image , order , sc ,technique )
     else:
         raise Exception('hexsample: do not support this colour model')
