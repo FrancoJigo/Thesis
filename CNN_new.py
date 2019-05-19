@@ -26,7 +26,7 @@ from keras.regularizers import l2
 classifier = Sequential()
 
 #Step1 Convolution
-classifier.add(Convolution2D(32,3,3,input_shape = (64,64,3),activation='relu'))
+classifier.add(Convolution2D(32,3,3,input_shape = (64,64,3),activation='relu', kernel_regularizer=l2(0.01), bias_regularizer=l2(0.01)))
 
 #Step2 Pooling
 classifier.add(MaxPooling2D(pool_size = (2,2)))
