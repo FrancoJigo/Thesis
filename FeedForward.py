@@ -1,18 +1,26 @@
-# import the necessary packages
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from keras.models import Sequential
-from keras.layers import Activation
-from keras.optimizers import SGD
-from keras.layers import Dense
-from keras.utils import np_utils
-from imutils import paths
+# Load libraries
 import numpy as np
-import argparse
-import cv2
-import os
+from keras.datasets import reuters
+from keras.utils.np_utils import to_categorical
+from keras.preprocessing.text import Tokenizer
+from keras import models
+from keras import layers
 
-def image_to_feature_vector(image, size=(32, 32)):
-	# resize the image to a fixed size, then flatten the image into
-	# a list of raw pixel intensities
-	return cv2.resize(image, size).flatten()
+# Set random seed
+np.random.seed(0)
+
+# Set the number of features we want
+number_of_features = 6
+
+# Load feature and target data
+# (train_data, train_target_vector), (test_data, test_target_vector) = reuters.load_data(num_words=number_of_features)
+
+
+# Convert feature data to a one-hot encoded feature matrix
+tokenizer = Tokenizer(num_words=number_of_features)
+train_features = tokenizer.sequences_to_matrix(train_data, mode='binary')
+test_features = tokenizer.sequences_to_matrix(test_data, mode='binary')
+
+# One-hot encode target vector to create a target matrix
+train_target = to_categorical(train_target_vector)
+test_target = to_categorical(test_target_vector)
