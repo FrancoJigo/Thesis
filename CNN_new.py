@@ -27,11 +27,14 @@ classifier = Sequential()
 
 #Step1 Convolution
 classifier.add(Convolution2D(32,3,3,input_shape = (64,64,3),activation='relu'))
+classifier.add(BatchNormalization())
+classifier.add(Dropout(0.5))
 
 #Step2 Pooling
 classifier.add(MaxPooling2D(pool_size = (2,2)))
 
 #Step3 Flattening
+classifier.add(Dropout(0.5))
 classifier.add(Flatten())
 
 #Step4 Full Connection
@@ -42,7 +45,10 @@ classifier.add(Dense(output_dim = 9, activation ='softmax'))
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 #Part 2 Fitting  the CNN to the images
-train_datagen = ImageDataGenerator(rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)
+train_datagen = ImageDataGenerator(rotation_range=10,
+                                    width_shift_range=0.05,
+                                    height_shift_range=0.05,rescale = 1./255, shear_range = 0.2, zoom_range = 0.2,
+                                    fill_mode='nearest', horizontal_flip = True)
 
 test_datagen = ImageDataGenerator(rescale = 1./255)
 
