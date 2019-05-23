@@ -62,7 +62,7 @@ for features, label in training_data:
     X.append(features)
     y.append(label)
 
-X = np.array(X).reshape(-1,image_size,image_size, 1)
+X = np.array(X).reshape(-1,image_size,image_size, 1)    
 
 
 # if __name__ == "__main__":
