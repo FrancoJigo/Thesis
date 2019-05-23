@@ -18,27 +18,36 @@ import numpy as np
 from keras.preprocessing import image
 
 # import regularizer
+from keras import regularizers
 from keras.regularizers import l1	
 from keras.regularizers import l2
+from keras.layers.normalization import BatchNormalization
+from keras.layers import Dropout
+# import noise layer
+from keras.layers import GaussianNoise
+# define noise layer
+layer = GaussianNoise(0.1)
+reg=0.001
 
 
 #Initialize the CNN
 classifier = Sequential()
 
 #Step1 Convolution
-classifier.add(Convolution2D(32,3,3,input_shape = (64,64,3),activation='relu'))
+classifier.add(Convolution2D(32,3,3,input_shape = (64,64,3),activation='relu', kernel_regularizer=regularizers.l2(0.01)))
 classifier.add(BatchNormalization())
 classifier.add(Dropout(0.5))
 
 #Step2 Pooling
 classifier.add(MaxPooling2D(pool_size = (2,2)))
+classifier.add(GaussianNoise(0.01))
 
 #Step3 Flattening
 classifier.add(Dropout(0.5))
 classifier.add(Flatten())
 
 #Step4 Full Connection
-classifier.add(Dense(output_dim = 128, activation = 'relu'))
+classifier.add(Dense(output_dim = 128, activation = 'relu', kernel_regularizer=regularizers.l2(0.01)))
 classifier.add(Dense(output_dim = 9, activation ='softmax'))
 
 #Compiling the CNN
