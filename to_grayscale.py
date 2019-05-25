@@ -2,7 +2,7 @@ import cv2
 import glob, os, errno
 
 # Replace mydir with the directory you want
-mydir = r'C:/Users/63917/Documents/Jigo/Thesis/images/Training/class_2'
+mydir = r'C:/Users/63917/Documents/Jigo/Thesis/'
 
 
 for fil in glob.glob("*.jpg"):

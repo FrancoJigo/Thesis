@@ -4,12 +4,13 @@ import os
 # Function to rename multiple files 
 def main(): 
     i = 0
+    e = '1'
       
-    for filename in os.listdir("C:/Users/Jigu/OneDrive/Documents/Thesis/Thesis/Square-implementation/images/Species9/20pics/"): 
-        dst ="test9." + str(i) + ".jpg"
-        src ='C:/Users/Jigu/OneDrive/Documents/Thesis/Thesis/Square-implementation/images/Species9/20pics/'+ filename 
-        dst ='C:/Users/Jigu/OneDrive/Documents/Thesis/Thesis/Square-implementation/images/Species9/20pics/'+ dst 
-          
+    for filename in os.listdir('C:/Users/63917/Documents/Jigo/Thesis/images/testingmodel/species'+e+'/'): 
+        dst ='model_test'+e+'.' + str(i) + '.jpg'
+        src ='C:/Users/63917/Documents/Jigo/Thesis/images/testingmodel/species'+e+'/'+ filename 
+        dst ='C:/Users/63917/Documents/Jigo/Thesis/images/testingmodel/species'+e+'/'+ dst 
+        
         # rename() function will 
         # rename all the files 
         os.rename(src, dst) 

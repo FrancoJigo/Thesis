@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import os
 import matplotlib.pyplot as plt
+import random
 
 def sigmoid(x):
     return 1.0/(1+ np.exp(-x))
@@ -46,35 +47,36 @@ def create_training_data():
                 training_data.append([new_array,class_num ])
             except Exception as e:
                 pass
-create_training_data()
-print(len(training_data))
-import random
 
-random.shuffle(training_data)
+if __name__ == "__main__":
+    # X = np.array([[0,0,1],
+    #               [0,1,1],
+    #               [1,0,1],
+    #               [1,1,1]])
+    # y = np.array([[0],[1],[1],[0]])
+    create_training_data()
+    # print(len(training_data))
 
-for  sample in training_data[:10]:
-    print(sample[1])
+    #randomize data
+    random.shuffle(training_data)
 
-X = []
-y = []
+    # for  sample in training_data[:10]:
+    #     print(sample[1])
 
-for features, label in training_data:
-    X.append(features)
-    y.append(label)
+    X = []
+    y = []
 
-X = np.array(X).reshape(-1,image_size,image_size, 1)    
+    for features, label in training_data:
+        X.append(features)
+        y.append(label)
 
+    # X = np.array(X).reshape(-1,image_size,image_size, 1)    
+    # print(X)
 
-# if __name__ == "__main__":
-#     X = np.array([[0,0,1],
-#                   [0,1,1],
-#                   [1,0,1],
-#                   [1,1,1]])
-#     y = np.array([[0],[1],[1],[0]])
-#     nn = NeuralNetwork(X,y)
+    nn = NeuralNetwork(X,y)
 
-#     for i in range(1500):
-#         nn.feedforward()
-#         nn.backprop()
+    for i in range(1500):
+        nn.feedforward()
+        nn.backprop()
 
-#     print(nn.output)
+    print(nn.output)
