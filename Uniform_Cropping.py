@@ -12,7 +12,7 @@ def crop_image(file_name,new_height,new_width):
 
     crop_im = im.crop((left, top, right, bottom)) #Cropping Image 
 
-    crop_im.save(file_name+".jpg")  #Saving Images 
+    crop_im.save(file_name+"_new.jpg")  #Saving Images 
 
 new_width = 1000     #Enter the crop image width
 new_height = 1000    #Enter the crop image height
