@@ -19,8 +19,8 @@ vgg_conv = VGG16(weights='imagenet',
 train_dir = 'C:/Users/63917/Documents/Jigo/Thesis/images/Training'
 validation_dir = 'C:/Users/63917/Documents/Jigo/Thesis/images/Validation'
  
-nTrain = 270
-nVal = 180
+nTrain = 1000
+nVal = 300sssss
 datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 20
 
