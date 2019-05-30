@@ -16,11 +16,11 @@ vgg_conv = VGG16(weights='imagenet',
                   include_top=False,
                   input_shape=(224, 224, 3))
 # vgg_conv.summary()
-train_dir = 'C:/Users/63917/Documents/Jigo/Thesis/images/Training'
-validation_dir = 'C:/Users/63917/Documents/Jigo/Thesis/images/Validation'
+train_dir = 'C:/Users/63917/Documents/Jigo/Thesis/dataset/Training/'
+validation_dir = 'C:/Users/63917/Documents/Jigo/Thesis/dataset/Validation/'
  
-nTrain = 1000
-nVal = 300sssss
+nTrain = 270
+nVal = 180
 datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 20
 
@@ -76,7 +76,9 @@ model.compile(optimizer=optimizers.RMSprop(lr=2e-4),
 
 history = model.fit(train_features,
                     train_labels,
+                    steps_per_epoch = 4000,
+                    validation_steps = 400,
                     epochs=20,
-                    batch_size=batch_size,
+                    # batch_size=batch_size,
                     validation_data=(validation_features,validation_labels))
-classifier.save('VGG16_1.model')
+model.save('VGG16_1.model')
