@@ -16,8 +16,8 @@ vgg_conv = VGG16(weights='imagenet',
                   include_top=False,
                   input_shape=(224, 224, 3))
 # vgg_conv.summary()
-train_dir = 'C:/Users/63917/Documents/Jigo/Thesis/dataset/Training/'
-validation_dir = 'C:/Users/63917/Documents/Jigo/Thesis/dataset/Validation/'
+train_dir = 'C:/Users/Jigu/Documents/New_thesis/Thesis/dataset/Training/'
+validation_dir = 'C:/Users/Jigu/Documents/New_thesis/Thesis/dataset/Validation/'
  
 nTrain = 270
 nVal = 180
